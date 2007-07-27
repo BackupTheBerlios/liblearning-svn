@@ -1,0 +1,160 @@
+<html><head>
+<style type="text/css">
+<!--
+TD.footer, TD.footer A {
+		font-family: Arial, helvetica, sans-serif; font-size: 8pt;
+}
+A.home {
+font-family: Arial, helvetica, sans-serif;
+}
+-->
+</style></head>
+<body alink="#003300" bgcolor="#ffffff" link="#006600" text="#000000" vlink="#7c7f87">
+
+<a href="index.html">TOC</a>
+<h1>markov_chain&lt;int Order, Symbol, 
+         Mapping,
+         SearchAlgorithm = binary_lower_bound&gt;
+</h1>
+
+<h3>Description</h3>
+   This class is an implementation of a Markov chain of order
+   <tt>Order</tt> for which the transition matrix is build from
+   a sequence of symbols given at time of construction.
+   Once a Markov chain has been created it can be used for random walks
+   using the iterator interface starting at a given state of the chain.
+   At each iteration the next state is chosen according to the
+   probabilities observed from the sequence of symbols given at the time
+   of construction.
+   <p>
+   For a Markov chain of order <i>k</i> each state of the Markov chain
+   is composed of <i>k</i> symbols. For example, if a Markov chain of
+   order 2 over the sequence "ABABC" is created we have the states "AB",
+   "BA" and "BC". If the current state of the Makrov chain is "AB"
+   the next symbol is either "A" or "C" both with probability 0.5. Thus,
+   the next state is either "BA" or "BC". Since from state "BC" no
+   further transitions could be observed no further steps are possible.
+   Such an <i>end</i> state can be checked with the end iterator
+   provided by the interface of this implementation.
+   </p>
+   <p>Complexities: for an <i>k</i>th order Markov chain the space
+   complexity is O(|\Sigma|^{k+1}), where |\Sigma| is the number of
+   symbols. The time needed to compute the next state is O(\log |\Sigma|).
+   </p>
+
+
+
+
+<h3>Example</h3>
+<pre>#include &lt;iostream&gt;
+#include &lt;markov_chain.hpp&gt;
+
+void ex1() 
+{
+  typedef markov_chain&lt;2, int&gt; mc_t;
+  typedef mc_t::iterator iterator;
+
+  int I[] = {0,1,2,0,1,2,0,1,2,2,1};
+  mc_t mc(&I[0], &I[11], 3);
+  mc_t::iterator i = mc.begin(&I[0]);
+
+  std::cout &lt;&lt; I[0] &lt;&lt; I[1] &lt;&lt; std::endl;
+  for (int n = 0; i != mc.end() && n &lt; 100; ++i, ++n)
+  {
+    std::cout &lt;&lt; *i &lt;&lt; std::flush;
+  }
+  std::cout &lt;&lt; std::endl &lt;&lt; "current state: &lt;";
+  iterator::const_symbol_iterator si = i.begin();
+  for (; si != i.end(); ++si)
+  {
+    std::cout &lt;&lt; *si;
+  }
+  std::cout &lt;&lt; "&gt;" &lt;&lt; std::endl;
+}
+
+void ex2()
+{
+  typedef markov_chain&lt;2, char&gt; mc_t;
+  typedef mc_t::iterator iterator;
+
+  char* c = "HELLO, THIS IS A TESTSTRING";
+  mc_t mc(&c[0], &c[strlen(c)], 256);
+  iterator i = mc.begin(&c[0]);
+
+  std::cout &lt;&lt; c[0] &lt;&lt; c[1] &lt;&lt; std::endl;
+  for (int n = 0; i != mc.end() && n &lt; 100; ++i, ++n)
+  {
+    std::cout &lt;&lt; *i &lt;&lt; std::flush;
+  }
+  std::cout &lt;&lt; std::endl &lt;&lt; "current state: &lt;";
+  iterator::const_symbol_iterator si = i.begin();
+  for (; si != i.end(); ++si)
+  {
+    std::cout &lt;&lt; *si;
+  }
+  std::cout &lt;&lt; "&gt;" &lt;&lt; std::endl;
+}
+
+int main(int argc, char** argv)
+{
+  srand(102);
+  ex1();
+  ex2();
+}
+
+</pre>
+
+   In the first example a Markov chain over integers is created. In the
+   second example a Markov chain over the ASCII alphabet is created.
+   The output of the examples should be similar to the following one.<br>
+   <pre>
+01
+221
+current state: <21>
+HE
+LLO, THIS IS A THIS IS IS IS IS A THIS A TESTSTRING
+current state: <NG>
+</pre>
+
+
+
+<h3>Definition</h3>
+Defined in header <a href="markov_chain.hpp">markov_chain.hpp</a>
+
+<h3>Template parameters</h3>
+<table border="1">
+<tbody><tr> <th> Parameter </th> <th> Description </th> <th> Default </th> </tr>
+<tr><td valign=top><tt>Order</tt></td><td valign=top>The order of the markov chain.</td><td valign=top><tt>&nbsp;</tt></td></tr>
+<tr><td valign=top><tt>Symbol</tt></td><td valign=top>Type of the symbols.</td><td valign=top><tt>&nbsp;</tt></td></tr>
+<tr><td valign=top><tt>Mapping</tt></td><td valign=top>For n symbols this mapping must assign each symbol a        unique number in the interval [0,n). Hence, if symbols are        integers in [0,n) the default identity mapping can be used.       </td><td valign=top><tt>identity&lt;Symbol&gt;</tt></td></tr>
+<tr><td valign=top><tt>SearchAlgorithm</tt></td><td valign=top>The search algorithm to search for the next        state.</td><td valign=top><tt>binary_lower_bound</tt></td></tr>
+
+</tbody></table>
+
+
+<h3>Members</h3>
+<table border="1">
+<tbody><tr> <th> Member </th> <th> Description </th> </tr>
+<tr><td valign=top><tt>mapping</tt></td><td valign=top> The type of the mapping object. </td></tr><tr><td valign=top><tt>size_type</tt></td><td valign=top> An unsigned integral type. </td></tr><tr><td valign=top><tt>symbol</tt></td><td valign=top> The type of the symbols. </td></tr><tr><td valign=top><tt>iterator</tt></td><td valign=top> Random walk iterator. </td></tr><tr><td valign=top><tt>template&lt;typename It&gt;<br>markov_chain(It beg, It end, size_type n_symbols, bool fin = true)
+    : __n_symbols(n_symbols), __n_states(0)</tt></td><td valign=top> Constructor. Creates a markov chain from the observed     symbols of the given range. </td></tr><tr><td valign=top><tt>template&lt;typename It&gt;<br>iterator
+  begin(It it)</tt></td><td valign=top> Returns a random walk iterator starting at the given initial state. [<a href="#note1">1</a>]</td></tr><tr><td valign=top><tt>end()</tt></td><td valign=top> Returns an end iterator. </td></tr>
+</tbody></table>
+
+
+<h3>Notes</h3>
+<p><a name="note1">[1]  The state of the Markov chain is stored in the iterator. Hence,     several iterators can be created and do not interact.
+  </p>
+
+
+<h3>See also</h3>
+<a href="markov_chain_iterator.html">markov_chain_iterator</a>
+
+<hr>
+<small>Copyright &copy; 2007 Daniel Etzold &lt;<script language="javascript"><!--
+  document.write("detzold");
+  document.write("@");
+  document.write("gmx");
+  document.write(".net");
+-->
+</script>&gt;</small>
+</body></html>

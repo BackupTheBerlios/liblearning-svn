@@ -1,0 +1,69 @@
+<html><head>
+<style type="text/css">
+<!--
+TD.footer, TD.footer A {
+		font-family: Arial, helvetica, sans-serif; font-size: 8pt;
+}
+A.home {
+font-family: Arial, helvetica, sans-serif;
+}
+-->
+</style></head>
+<body alink="#003300" bgcolor="#ffffff" link="#006600" text="#000000" vlink="#7c7f87">
+
+<a href="index.html">TOC</a>
+<h1>copy_n&lt;int N&gt;
+</h1>
+
+<h3>Description</h3>
+ Copies <tt>N</tt> elments without using loops.   For small <tt>N</tt> this method also
+   known as loop unroll may improve performance at run time.
+
+
+
+
+<h3>Example</h3>
+<pre>int n[] = {1, 2, 3};
+copy_n&lt;2&gt;::assign(&n[1], &n[0]);
+
+</pre>
+
+   Copies the element 2 from the second to the first position and the
+   element 3 from the third to the second position.
+
+
+
+<h3>Definition</h3>
+Defined in header <a href="copy_n.hpp">bits/copy_n.hpp</a>
+
+<h3>Template parameters</h3>
+<table border="1">
+<tbody><tr> <th> Parameter </th> <th> Description </th> <th> Default </th> </tr>
+<tr><td valign=top><tt>N</tt></td><td valign=top>Number of elements to copy.</td><td valign=top><tt>&nbsp;</tt></td></tr>
+
+</tbody></table>
+
+
+<h3>Members</h3>
+<table border="1">
+<tbody><tr> <th> Member </th> <th> Description </th> </tr>
+<tr><td valign=top><tt>template&lt;typename T, typename U&gt;<br>static void
+  assign(const T* src, U* dst)</tt></td><td valign=top> Assigns the value at <tt>dst</tt> to <tt>src</tt>. </td></tr>
+</tbody></table>
+
+
+<h3>Notes</h3>
+
+
+<h3>See also</h3>
+<a href="pow.html">pow</a>
+
+<hr>
+<small>Copyright &copy; 2007 Daniel Etzold &lt;<script language="javascript"><!--
+  document.write("detzold");
+  document.write("@");
+  document.write("gmx");
+  document.write(".net");
+-->
+</script>&gt;</small>
+</body></html>

@@ -1,0 +1,60 @@
+<html><head>
+<style type="text/css">
+<!--
+TD.footer, TD.footer A {
+		font-family: Arial, helvetica, sans-serif; font-size: 8pt;
+}
+A.home {
+font-family: Arial, helvetica, sans-serif;
+}
+-->
+</style></head>
+<body alink="#003300" bgcolor="#ffffff" link="#006600" text="#000000" vlink="#7c7f87">
+
+<a href="index.html">TOC</a>
+<h1>markov_chain_iterator&lt;P, int Order&gt;
+</h1>
+
+<h3>Description</h3>
+ Iterator to iterate over the states of a Markov chain.
+
+<h3>Example</h3>
+<pre>&nbsp;
+</pre>
+
+
+
+<h3>Definition</h3>
+Defined in header <a href="markov_chain_iterator.hpp">bits/markov_chain_iterator.hpp</a>
+
+<h3>Template parameters</h3>
+<table border="1">
+<tbody><tr> <th> Parameter </th> <th> Description </th> <th> Default </th> </tr>
+<tr><td valign=top><tt>P</tt></td><td valign=top>The class of the Markov chain.</td><td valign=top><tt>&nbsp;</tt></td></tr>
+<tr><td valign=top><tt>Order</tt></td><td valign=top>The order of the Markov chain.</td><td valign=top><tt>&nbsp;</tt></td></tr>
+
+</tbody></table>
+
+
+<h3>Members</h3>
+<table border="1">
+<tbody><tr> <th> Member </th> <th> Description </th> </tr>
+<tr><td valign=top><tt>markov_chain_iterator()</tt></td><td valign=top> Creates an end iterator. </td></tr><tr><td valign=top><tt>iterator& operator++()</tt></td><td valign=top> Steps forward to the next state. </td></tr><tr><td valign=top><tt>bool operator==(const iterator& i) const</tt></td><td valign=top> Checks whether both iterators are in the same state. </td></tr><tr><td valign=top><tt>bool operator!=(const iterator& i) const</tt></td><td valign=top> Checks whether the iterators are in different states. </td></tr><tr><td valign=top><tt>const_reference operator*() const</tt></td><td valign=top> Returns the next symbol. </td></tr><tr><td valign=top><tt>iterator& operator=(const iterator& i)</tt></td><td valign=top> Assigns the given iterator to the current one. </td></tr>
+</tbody></table>
+
+
+<h3>Notes</h3>
+
+
+<h3>See also</h3>
+
+
+<hr>
+<small>Copyright &copy; 2007 Daniel Etzold &lt;<script language="javascript"><!--
+  document.write("detzold");
+  document.write("@");
+  document.write("gmx");
+  document.write(".net");
+-->
+</script>&gt;</small>
+</body></html>

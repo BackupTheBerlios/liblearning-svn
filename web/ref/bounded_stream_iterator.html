@@ -1,0 +1,86 @@
+<html><head>
+<style type="text/css">
+<!--
+TD.footer, TD.footer A {
+		font-family: Arial, helvetica, sans-serif; font-size: 8pt;
+}
+A.home {
+font-family: Arial, helvetica, sans-serif;
+}
+-->
+</style></head>
+<body alink="#003300" bgcolor="#ffffff" link="#006600" text="#000000" vlink="#7c7f87">
+
+<a href="index.html">TOC</a>
+<h1>bounded_stream_iterator&lt;String = std::string&gt;
+</h1>
+
+<h3>Description</h3>
+   This class is used similar to an iterator. It traverses an input
+   stream and searches for blocks which have a given prefix and suffix
+   and returns the content between them.
+   
+
+
+<h3>Example</h3>
+<pre>#include &lt;iostream&gt;
+#include &lt;sstream&gt;
+#include &lt;bounded_stream_iterator.hpp&gt;
+
+int main(int argc, char** argv)
+{
+  std::stringstream ss("Hello &lt;b&gt;World&lt;/b&gt;, &lt;b&gt;nice&lt;/b&gt; day!");
+  bounded_stream_iterator&lt;&gt; iend;
+  bounded_stream_iterator&lt;&gt; i("&lt;b&gt;", "&lt;/b&gt;", &ss);
+  for (; i != iend; ++i)
+  {
+    std::cout &lt;&lt; *i &lt;&lt; std::endl;
+  }
+}
+
+</pre>
+
+   Should print the following two lines:<br>
+   <pre>World</pre>
+   <pre>nice</pre>
+
+
+
+<h3>Definition</h3>
+Defined in header <a href="bounded_stream_iterator.hpp">bounded_stream_iterator.hpp</a>
+
+<h3>Template parameters</h3>
+<table border="1">
+<tbody><tr> <th> Parameter </th> <th> Description </th> <th> Default </th> </tr>
+<tr><td valign=top><tt>String</tt></td><td valign=top>Type used internally to store a block. </td><td valign=top><tt>std::string</tt></td></tr>
+
+</tbody></table>
+
+
+<h3>Members</h3>
+<table border="1">
+<tbody><tr> <th> Member </th> <th> Description </th> </tr>
+<tr><td valign=top><tt>value_type</tt></td><td valign=top> The type <tt>String</tt>. </td></tr><tr><td valign=top><tt>const_reference</tt></td><td valign=top> A constant reference to <tt>String</tt>. </td></tr><tr><td valign=top><tt>iterator</tt></td><td valign=top> The type of this iterator. </td></tr><tr><td valign=top><tt>bounded_stream_iterator()</tt></td><td valign=top> Constructs an end iterator. </td></tr><tr><td valign=top><tt>bounded_stream_iterator(const String& prf,
+                  const String& sfx, 
+                  std::istream* is)</tt></td><td valign=top> Constructs an iterator for the given stream <tt>is</tt>     which extracts all data between the prefix <tt>prf</tt> and the
+     suffix <tt>sfx</tt>.
+  </td></tr><tr><td valign=top><tt>iterator& operator++()</tt></td><td valign=top> Moves the iterator one step forward to the next block .</td></tr><tr><td valign=top><tt>bool operator==(const iterator& i) const</tt></td><td valign=top> Checks the address of the stream for equality. </td></tr><tr><td valign=top><tt>bool operator!=(const iterator& i) const</tt></td><td valign=top> Checks the address of the stream for inequality. </td></tr><tr><td valign=top><tt>const_reference operator*() const</tt></td><td valign=top> Returns a const reference to the data block to which the     iterator currently points to.
+  </td></tr>
+</tbody></table>
+
+
+<h3>Notes</h3>
+
+
+<h3>See also</h3>
+
+
+<hr>
+<small>Copyright &copy; 2007 Daniel Etzold &lt;<script language="javascript"><!--
+  document.write("detzold");
+  document.write("@");
+  document.write("gmx");
+  document.write(".net");
+-->
+</script>&gt;</small>
+</body></html>

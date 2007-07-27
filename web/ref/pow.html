@@ -1,0 +1,115 @@
+<html><head>
+<style type="text/css">
+<!--
+TD.footer, TD.footer A {
+		font-family: Arial, helvetica, sans-serif; font-size: 8pt;
+}
+A.home {
+font-family: Arial, helvetica, sans-serif;
+}
+-->
+</style></head>
+<body alink="#003300" bgcolor="#ffffff" link="#006600" text="#000000" vlink="#7c7f87">
+
+<a href="index.html">TOC</a>
+<h1>pow&lt;unsigned N&gt;
+</h1>
+
+<h3>Description</h3>
+ Computes the <i>N</i>th power of a given number   without loops if the power is known at compile time.
+
+   <p>The following example shows what the assembler code might
+   look like if no loop unroll techniques are used and the power is
+   computed at compile time. A loop is created which is passed
+   through eight times. Not only loops are expensive on
+   contemporary processors but we have eight multiplications
+   as well.
+<table><tr><td valign=top>
+<pre>
+int y = rand();
+int r = y;
+for (int i = 2; i <= 8; ++i, r *= y);     
+</pre>
+</td><td>
+<pre>
+    movl    $2, %ecx
+.LVL4:
+    movl    %eax, %edx
+.LVL5:
+    .p2align 4,,7
+.L13:
+.LBB81:
+    .loc 1 9 0
+    addl    $1, %ecx
+    imull   %eax, %edx
+    cmpl    $9, %ecx
+    jne .L13
+</pre>
+</td></tr></table>
+   </p>
+   <p>If the power is already known at compile time loop unroll
+   cann be used to compute the power without loops.
+<table><tr><td valign=top>
+<pre>
+int x = pow<8>::compute(rand());
+</pre>
+</td><td>
+<pre>
+    call    rand
+    .loc 1 10 0
+    movl    $_ZSt4cout, (%esp)
+    imull   %eax, %eax
+    imull   %eax, %eax
+    imull   %eax, %eax
+    movl    %eax, 4(%esp)
+    call    _ZNSolsEi
+</pre>
+</td></tr></table>
+
+
+
+<h3>Example</h3>
+<pre>int x = pow&lt;8&gt;::compute(rand());
+std::cout &lt;&lt; x &lt;&lt; std::endl;
+
+</pre>
+
+   Computes the eighth power of a random number usually with just three multiplications.
+
+
+
+
+<h3>Definition</h3>
+Defined in header <a href="pow.hpp">bits/pow.hpp</a>
+
+<h3>Template parameters</h3>
+<table border="1">
+<tbody><tr> <th> Parameter </th> <th> Description </th> <th> Default </th> </tr>
+<tr><td valign=top><tt>N</tt></td><td valign=top>The exponent.</td><td valign=top><tt>&nbsp;</tt></td></tr>
+
+</tbody></table>
+
+
+<h3>Members</h3>
+<table border="1">
+<tbody><tr> <th> Member </th> <th> Description </th> </tr>
+<tr><td valign=top><tt>template&lt;typename T&gt;<br>static T
+  compute(const T& t)</tt></td><td valign=top> Computes the <i>N</i>th power of t. </td></tr>
+</tbody></table>
+
+
+<h3>Notes</h3>
+
+
+<h3>See also</h3>
+<a href="copy_n.html">copy_n</a>
+
+<hr>
+<small>Copyright &copy; 2007 Daniel Etzold &lt;<script language="javascript"><!--
+  document.write("detzold");
+  document.write("@");
+  document.write("gmx");
+  document.write(".net");
+-->
+</script>&gt;</small>
+</body></html>
