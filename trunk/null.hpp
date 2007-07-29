@@ -1,4 +1,4 @@
-/* key_id_map.hpp source file
+/* null.hpp source file
  * 
  * Copyright 2007 Daniel Etzold
  * detzold@gmx.net
@@ -21,49 +21,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef KEY_ID_MAP_HPP
-#define KEY_ID_MAP_HPP
+#ifndef LL_NULL_HPP
+#define LL_NULL_HPP
 
-#include <map>
-#include <vector>
-
-namespace ll
-{
-
-template<typename T, typename C = std::map<T, size_t> >
-class key_id_map
-{
-public:
-  typedef size_t size_type;
-  typedef T value_type;
-  typedef const T& const_reference;
-
-  key_id_map(size_type off = 0)
-    : __off(off)
-  { }
-
-  size_type
-  operator()(const T& t)
-  {
-    typename C::iterator i = __c.find(t);
-    if (i == __c.end())
-    {
-      i = __c.insert(std::make_pair(t, __c.size() + __off)).first;
-      __rev.push_back(&i->first);
-    }
-    return i->second;
-  }
-
-  const_reference
-  operator[](size_type n) const
-  { return *__rev[n - __off]; }
-
-private:
-  C __c;
-  std::vector<const T*> __rev;
-  size_type __off;
-};
-
-}
+struct null
+{ };
 
 #endif
+

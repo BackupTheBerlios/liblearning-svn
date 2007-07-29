@@ -1,4 +1,4 @@
-/* key_id_map.hpp source file
+/* main.c source file
  * 
  * Copyright 2007 Daniel Etzold
  * detzold@gmx.net
@@ -21,49 +21,29 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef KEY_ID_MAP_HPP
-#define KEY_ID_MAP_HPP
+#include <iostream>
+#include <directory_iterator.hpp>
 
-#include <map>
-#include <vector>
+// 500 spam; remove file "cmds" first
+#define POS "/home/dz/data/corpora/spam/spamassassin_corpus/spam"
+// 2500 ham; remove file "cmds" first
+#define NEG "/home/dz/data/corpora/spam/spamassassin_corpus/easy_ham"
 
-namespace ll
+#include <wdm.hpp>
+#include <boost/tokenizer.hpp>
+
+int
+main(int argc, char** argv)
 {
+  ll::wdm<std::string, int, ll::wdm_label_file_property<std::string> > w;
 
-template<typename T, typename C = std::map<T, size_t> >
-class key_id_map
-{
-public:
-  typedef size_t size_type;
-  typedef T value_type;
-  typedef const T& const_reference;
+  // read spam
+  ll::directory_iterator it_end;
+  ll::directory_iterator it(POS);
+  ll::wdm_insert_files<ll::wdm_email_tokenizer<boost::tokenizer<> > >
+    (w, it, it_end, ll::wdm_label_file_property_creator<std::string>("pos"));
 
-  key_id_map(size_type off = 0)
-    : __off(off)
-  { }
-
-  size_type
-  operator()(const T& t)
-  {
-    typename C::iterator i = __c.find(t);
-    if (i == __c.end())
-    {
-      i = __c.insert(std::make_pair(t, __c.size() + __off)).first;
-      __rev.push_back(&i->first);
-    }
-    return i->second;
-  }
-
-  const_reference
-  operator[](size_type n) const
-  { return *__rev[n - __off]; }
-
-private:
-  C __c;
-  std::vector<const T*> __rev;
-  size_type __off;
-};
-
+  // read ham
+  
 }
 
-#endif

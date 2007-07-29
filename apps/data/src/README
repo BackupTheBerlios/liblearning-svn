@@ -1,0 +1,7 @@
+To create synthetic data:
+  ./main
+
+To plot synthetic data:
+  gnuplot plot.gnu
+The result is written into ../synthetic/...
+

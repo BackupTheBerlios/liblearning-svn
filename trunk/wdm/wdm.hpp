@@ -1,5 +1,5 @@
-/* key_id_map.hpp source file
- * 
+/* wdm.hpp source file
+ *
  * Copyright 2007 Daniel Etzold
  * detzold@gmx.net
  * Distributed under the terms of the GNU General Public License.
@@ -21,49 +21,54 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef KEY_ID_MAP_HPP
-#define KEY_ID_MAP_HPP
+#ifndef LL_WDM_HPP
+#define LL_WDM_HPP
 
-#include <map>
+#include <key_id_map.hpp>
 #include <vector>
+#include <map>
+#include <null.hpp>
 
 namespace ll
 {
 
-template<typename T, typename C = std::map<T, size_t> >
-class key_id_map
+template<typename TokenType, typename T, typename Property = null>
+class wdm
 {
 public:
-  typedef size_t size_type;
+  typedef Property property_type;
+  typedef TokenType token_type;
   typedef T value_type;
-  typedef const T& const_reference;
+  typedef size_t size_type;
+  typedef std::vector<std::pair<size_type, T> > token_list_type;
 
-  key_id_map(size_type off = 0)
-    : __off(off)
+  wdm()
   { }
 
-  size_type
-  operator()(const T& t)
+  template<typename It>
+  void
+  push_back(It beg, It end)
+  { push_back(beg, end, null()); }
+
+  template<typename It>
+  void
+  push_back(It beg, It end, const Property& p)
   {
-    typename C::iterator i = __c.find(t);
-    if (i == __c.end())
-    {
-      i = __c.insert(std::make_pair(t, __c.size() + __off)).first;
-      __rev.push_back(&i->first);
-    }
-    return i->second;
+    std::map<size_type, size_type> m;
+    token_list_type tl;
+    for (; beg != end; ++beg)
+      m[__k(*beg)]++;
+    for (std::map<size_type, size_type>::iterator i = m.begin();
+        i != m.end(); ++i)
+      tl.push_back(std::make_pair(i->first, i->second));
+    __v.push_back(tl);
   }
 
-  const_reference
-  operator[](size_type n) const
-  { return *__rev[n - __off]; }
-
 private:
-  C __c;
-  std::vector<const T*> __rev;
-  size_type __off;
+  std::vector<token_list_type> __v;
+  ll::key_id_map<TokenType> __k;
 };
 
 }
-
 #endif
+

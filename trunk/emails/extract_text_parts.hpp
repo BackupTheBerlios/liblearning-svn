@@ -38,6 +38,9 @@
 #include <boost/regex.hpp>
 #include <boost/algorithm/string/split.hpp>
 
+namespace ll
+{
+
 template<typename String>
 String
 __get_boundary(const String& s)
@@ -98,4 +101,5 @@ extract_text_parts(const String& header, const String& body, String& dst,
   }
 }
 
+}
 #endif

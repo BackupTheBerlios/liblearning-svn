@@ -27,6 +27,9 @@
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
 
+namespace ll
+{
+
 /* @class directory_iterator
 */
 class directory_iterator
@@ -78,5 +81,6 @@ private:
   boost::filesystem::directory_iterator __end;
   int __t;
 };
+}
 
 #endif

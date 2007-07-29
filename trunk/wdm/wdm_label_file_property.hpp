@@ -1,4 +1,4 @@
-/* key_id_map.hpp source file
+/* wdm_label_file_property.hpp source file
  * 
  * Copyright 2007 Daniel Etzold
  * detzold@gmx.net
@@ -21,49 +21,35 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef KEY_ID_MAP_HPP
-#define KEY_ID_MAP_HPP
+#ifndef LL_WDM_LABEL_FILE_PROPERTY_HPP
+#define LL_WDM_LABEL_FILE_PROPERTY_HPP
 
-#include <map>
-#include <vector>
+#include <string>
 
 namespace ll
 {
 
-template<typename T, typename C = std::map<T, size_t> >
-class key_id_map
+template<typename T>
+class wdm_label_file_property
 {
 public:
-  typedef size_t size_type;
-  typedef T value_type;
-  typedef const T& const_reference;
-
-  key_id_map(size_type off = 0)
-    : __off(off)
+  wdm_label_file_property(const T& label, const std::string& fname)
+    : __label(label), __fname(fname)
   { }
 
-  size_type
-  operator()(const T& t)
-  {
-    typename C::iterator i = __c.find(t);
-    if (i == __c.end())
-    {
-      i = __c.insert(std::make_pair(t, __c.size() + __off)).first;
-      __rev.push_back(&i->first);
-    }
-    return i->second;
-  }
+  const T&
+  label() const
+  { return __label; }
 
-  const_reference
-  operator[](size_type n) const
-  { return *__rev[n - __off]; }
+  const std::string&
+  filename() const
+  { return __fname; }
 
 private:
-  C __c;
-  std::vector<const T*> __rev;
-  size_type __off;
+  T __label;
+  std::string __fname;
 };
 
 }
-
 #endif
+

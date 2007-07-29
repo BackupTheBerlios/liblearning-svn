@@ -27,5 +27,6 @@
 #include <strings/substr_boundary.hpp>
 #include <strings/to_lower.hpp>
 #include <strings/tokenize.hpp>
+#include <strings/converter.hpp>
 
 #endif
