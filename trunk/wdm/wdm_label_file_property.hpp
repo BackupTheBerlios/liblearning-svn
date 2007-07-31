@@ -33,6 +33,9 @@ template<typename T>
 class wdm_label_file_property
 {
 public:
+  typedef T label_type;
+  typedef std::string filename_type;
+
   wdm_label_file_property(const T& label, const std::string& fname)
     : __label(label), __fname(fname)
   { }

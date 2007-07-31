@@ -58,6 +58,10 @@ public:
   operator[](size_type n) const
   { return *__rev[n - __off]; }
 
+  size_type
+  size() const
+  { return __rev.size(); }
+
 private:
   C __c;
   std::vector<const T*> __rev;

@@ -32,15 +32,20 @@
 namespace ll
 {
 
-template<typename TokenType, typename T, typename Property = null>
+template<typename FeatureType, typename T, typename Property = null>
 class wdm
 {
 public:
+  typedef wdm<FeatureType, T, Property> wdm_type;
   typedef Property property_type;
-  typedef TokenType token_type;
+  typedef FeatureType feature_type;
   typedef T value_type;
   typedef size_t size_type;
-  typedef std::vector<std::pair<size_type, T> > token_list_type;
+  typedef std::pair<size_type, T> pair_type;
+  typedef std::vector<pair_type> token_list_type;
+
+  typedef typename std::vector<token_list_type>::iterator iterator;
+  typedef typename std::vector<token_list_type>::const_iterator const_iterator;
 
   wdm()
   { }
@@ -62,11 +67,41 @@ public:
         i != m.end(); ++i)
       tl.push_back(std::make_pair(i->first, i->second));
     __v.push_back(tl);
+    __p.push_back(p);
   }
+
+  iterator
+  begin()
+  { return __v.begin(); }
+
+  const_iterator
+  begin() const
+  { return __v.begin(); }
+
+  iterator
+  end()
+  { return __v.end(); }
+
+  const_iterator
+  end() const
+  { return __v.end(); }
+
+  const property_type&
+  property(const iterator& i) const
+  { return __p[i - __v.begin()]; }
+
+  const property_type&
+  property(const const_iterator& i) const
+  { return __p[i - __v.begin()]; }
+
+  const feature_type&
+  feature(size_type n) const
+  { return __k[n]; }
 
 private:
   std::vector<token_list_type> __v;
-  ll::key_id_map<TokenType> __k;
+  std::vector<property_type> __p;
+  ll::key_id_map<feature_type> __k;
 };
 
 }
